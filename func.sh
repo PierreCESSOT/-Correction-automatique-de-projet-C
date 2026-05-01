@@ -7,7 +7,7 @@ findCleanInMakefile()
 		echo "Clean in Makefile : yes";
 	else
 		echo "Clean in Makefile : no";
-		let "malus+=1";
+		((malus+=2));
 	fi
 }
 findMakefile()
@@ -16,11 +16,11 @@ findMakefile()
 
 	if [ "$isMakefile" -gt 0 ]; then
 		echo "Makefile : yes";
-		let "points+=2";
+		((points+=2));
 		findCleanInMakefile;
 	else 
 		echo "Makefile : no";
-		let "malus+=20";
+		((malus+=20));
 	fi
 }
 findHeader()
@@ -30,6 +30,17 @@ findHeader()
 		echo "header : yes";
 	else
 		echo "header : no";
-		let "malus+=1";
+		((points+=2));
 	fi
+}
+81Characters()
+{
+	countChar=$(grep -E ".{81,}$" *.[ch] | wc -l);
+	if [ $countChar -eq 0 ]; then
+		echo "+81 Char : no";
+	else
+		echo "+81 Char : yes";
+		((malus+=2));
+	fi
+
 }
