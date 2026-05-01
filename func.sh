@@ -33,14 +33,42 @@ findHeader()
 		((points+=2));
 	fi
 }
-81Characters()
+80Characters()
 {
-	countChar=$(grep -E ".{81,}$" *.[ch] | wc -l);
-	if [ $countChar -eq 0 ]; then
-		echo "+81 Char : no";
+	countChar=$(grep -E ".{81,}" *.[ch] | wc -l)
+	if [ "$countChar" -gt 0 ]; then
+        echo ">80 Char : yes"
+        ((malus+=2))
+    else
+        echo ">80 Char : no"
+    fi
+}
+function_IntFactorielle()
+{
+	function=$(grep -E "(int factorielle\( int number \))" *.[c] | wc -l);
+	signature=$(grep -E "(int factorielle\( int number \))" *.[h] | wc -l);
+	if [ "$function" -gt 0 ]; then
+		echo "Function int factorielle : yes";
+		((points+=2));
 	else
-		echo "+81 Char : yes";
+		echo "Function int factorielle : no";
+	fi
+	if [ "$signature" -gt 0 ]; then
+		echo "Signature int factorielle : yes";
+	else
+		echo "Signature int factorielle : no";
 		((malus+=2));
 	fi
+}
+checkIndentation() 
+{
+	tabCount=$(grep -P "^\t" *.[ch] | wc -l)
+	badIndent=$(grep -P "^ +" *.[ch] | grep -Pv "^( {2})+[^ ]" | grep -Pv "^ +$" | wc -l)
 
+	if [ "$tabCount" -gt 0 ] || [ "$badIndent" -gt 0 ]; then
+		echo "Wrong Indentation : no"
+		((malus+=2))
+	else
+		echo "Wrong Indentation : yes"
+	fi
 }
