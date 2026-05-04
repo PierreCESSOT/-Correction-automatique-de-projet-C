@@ -3,21 +3,21 @@ make factorielle;
 
 points=0;
 malus=0;
-# ERROR : 80Characters <countChar> - 80 is count like malus
 
-# find Makefile && find clean in Makefile
 findMakefile;
-# find .h file
 findHeader;
-80Characters;
-# function int factorielle is present && signature is present
+checkEightyCharacters;
 function_IntFactorielle;
 positiveFactorielle;
 factorielle0;
-echo "-----------------------------------------------------------------";
-# NEED ADD curly brace(accolades) CHECK
 checkIndentation;
+
+echo "-----------------------------------------------------------------";
+
+note=$(echo "$points - $malus" | bc)
+generateCSV $note;
+
 echo "-----------------------------------------------------------------";
 echo "points : $points";
 echo "malus : $malus";
-
+echo "note finale : $note";

@@ -28,12 +28,12 @@ findHeader()
 	isHeader=$(find -name "*.h" | wc -l);
 	if [ "$isHeader" -gt 0 ]; then
 		echo "header : yes";
+		((points+=2));
 	else
 		echo "header : no";
-		((points+=2));
 	fi
 }
-80Characters()
+checkEightyCharacters()
 {
 	countChar=$(grep -E ".{81,}" *.[ch] | wc -l)
 	if [ "$countChar" -gt 0 ]; then
@@ -67,7 +67,6 @@ checkIndentation()
 
 	if [ "$tabCount" -gt 0 ] || [ "$badIndent" -gt 0 ]; then
 		echo "Wrong Indentation : no"
-		((malus+=2))
 	else
 		echo "Wrong Indentation : yes"
 	fi
@@ -84,7 +83,7 @@ positiveFactorielle()
 
 		if [ "$result" != "$projectResult" ]; then
 			echo "factorielle : not equal";
-			$isNotEqual="true";
+			isNotEqual="true";
 		fi
 	done
 	if [ "$isNotEqual" = "true" ]; then
@@ -103,5 +102,25 @@ factorielle0()
 	else
 		echo "factorielle 0=1: no"
 	fi
+}
+generateCSV()
+{
+    local dirName=$(basename "$PWD")
+    local lastName=$(echo "$dirName" | awk -F'_' '{print $1}')
+    local firstName=$(echo "$dirName" | awk -F'_' '{print $2}')
+
+    if [ -z "$firstName" ]; then
+        local fullName=$(cat readme.txt)
+        firstName=$(echo "$fullName" | awk '{print $1}')
+        lastName=$(echo "$fullName" | awk '{print $2}')
+    fi
+
+    local note=$1
+
+    if [ ! -f "note.csv" ]; then
+        echo "Nom,Prénom,Note" > note.csv
+    fi
+
+    echo "'$lastName','$firstName',$note" >> note.csv
 }
 
