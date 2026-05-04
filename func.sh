@@ -16,7 +16,7 @@ findMakefile()
 
 	if [ "$isMakefile" -gt 0 ]; then
 		echo "Makefile : yes";
-		((points+=2));
+		# ((points+=2));
 		findCleanInMakefile;
 	else 
 		echo "Makefile : no";
@@ -123,4 +123,24 @@ generateCSV()
 
     echo "'$lastName','$firstName',$note" >> note.csv
 }
+negativefactorielle()
+{
+    ./factorielle -2 > negatifNb.txt;
+    msgErreurnegatif=$(grep -E "Erreur: nombre negatif" negatifNb.txt | wc -l);
 
+    if [ "$msgErreurnegatif" -gt 0 ]; then
+        echo "Message erreur negatif present"
+        ((points+=4))
+    fi
+
+	rm negatifNb.txt;
+}
+nombreParametre() {
+    ./factorielle 5 5 > parametreNb.txt;
+    msgErreurparametre=$(grep -E "Erreur: Mauvais nombre de parametres" parametreNb.txt | wc -l);
+    if [ "$msgErreurparametre" -gt 0 ]; then
+        echo "msg erreur nombre de parametres : yes"
+        ((points+=4))
+    fi
+	rm parametreNb.txt;
+}
