@@ -72,3 +72,36 @@ checkIndentation()
 		echo "Wrong Indentation : yes"
 	fi
 }
+positiveFactorielle()
+{
+	isNotEqual="false";
+	result=1;
+	projectResult=0;
+	for i in {1..10}
+	do
+		((result*=i));
+		projectResult=$(./factorielle $i);
+
+		if [ "$result" != "$projectResult" ]; then
+			echo "factorielle : not equal";
+			$isNotEqual="true";
+		fi
+	done
+	if [ "$isNotEqual" = "true" ]; then
+		echo "factorielle 1-10: no"
+	else
+		echo "factorielle 1-10: yes"
+		((points+=5));
+	fi
+}
+factorielle0()
+{
+	projectResultFactorielle0=$(./factorielle 0);
+	if [ "$projectResultFactorielle0" = "1" ]; then
+		echo "factorielle 0=1: yes"
+		((points+=3));
+	else
+		echo "factorielle 0=1: no"
+	fi
+}
+
